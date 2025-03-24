@@ -1,5 +1,11 @@
 import { Geist, Geist_Mono } from "next/font/google";
+import {Suspense} from 'react'
 import "./globals.css";
+import Header from "../components/header/Header";
+import Footer from "../components/footer/Footer";
+import PageContent from "../components/PageContent/PageContent";
+import LoadingIndicator from "../components/loadingIndicator/LoadingIndicator";
+import PageLoader from "./books/PageLoader";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -20,7 +26,11 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
-        {children}
+        <Header />
+        <PageContent>
+          {children}
+        </PageContent>
+        <Footer />
       </body>
     </html>
   );
