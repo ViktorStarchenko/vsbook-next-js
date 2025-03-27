@@ -1,4 +1,4 @@
-import {fetchPost, fetchPostTaxonomies} from "../../../lib/posts";
+import {fetchPost, fetchPostTaxonomies} from "../../../lib/posts-loader";
 import Section from "../../../components/section/Section";
 import Image from "next/image";
 import PostSingleTaxonomies from "../../../components/post-single/PostSingleTaxonomies";

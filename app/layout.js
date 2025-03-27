@@ -6,6 +6,9 @@ import Footer from "../components/footer/Footer";
 import PageContent from "../components/PageContent/PageContent";
 import LoadingIndicator from "../components/loadingIndicator/LoadingIndicator";
 import PageLoader from "./books/PageLoader";
+import {Provider} from "react-redux";
+import {store} from "@/store/index";
+import ClientProviders from "../components/ClientProviders/ClientProviders";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -24,14 +27,16 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable}`}>
-        <Header />
-        <PageContent>
-          {children}
-        </PageContent>
-        <Footer />
-      </body>
-    </html>
+      <ClientProviders>
+        <html lang="en">
+          <body>
+              <Header />
+              <PageContent>
+                {children}
+              </PageContent>
+              <Footer />
+          </body>
+        </html>
+    </ClientProviders>
   );
 }

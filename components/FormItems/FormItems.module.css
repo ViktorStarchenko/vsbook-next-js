@@ -1,0 +1,9 @@
+.formItem {
+
+}
+.formItem > input,
+.formItem > textarea,
+.formItem > select,
+.formItem > button {
+    width: 100%;
+}

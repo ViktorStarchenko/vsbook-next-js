@@ -1,6 +1,6 @@
 import Section from "../../components/section/Section";
 import PostsGrid from "../../components/posts-grid/PostsGrid";
-import {fetchPosts} from "../../lib/posts";
+import {fetchPosts} from "../../lib/posts-loader";
 import Pagination from "../../components/pagination/Pagination";
 import LoadingIndicator from "../../components/loadingIndicator/LoadingIndicator";
 import Test from "../../components/Test";
