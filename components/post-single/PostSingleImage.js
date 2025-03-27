@@ -1,6 +1,6 @@
 import Image from "next/image";
 import ImagePlaceholder from "../../public/1700488940348.jpg";
-import {fetchPostImage} from "../../lib/posts";
+import {fetchPostImage} from "../../lib/posts-loader";
 
 export default async function PostSingleImage({post}) {
     console.log(post)

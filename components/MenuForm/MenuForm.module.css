@@ -1,0 +1,74 @@
+.menuFormListWrapper {
+    padding: 30px 0;
+}
+.menuFormList {
+    list-style: none;
+    text-align: left;
+    padding-left: 10px;
+}
+.menuFormList li {
+    padding: 10px;
+    padding-right: 0;
+    background: #e1eeeba3;
+    color: #000;
+    margin: 5px 0px;
+}
+.menuFormList li a {
+    color: #000;
+    text-decoration: none;
+}
+.menuFormList li a:hover {
+    color: #f57eb6;
+}
+.menuFormListInner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+.menuFormListName {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 5px;
+}
+.actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 10px;
+    padding-right: 10px;
+}
+.actions span {
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+}
+.actions span:hover {
+    color: #f57eb6;
+}
+.actionChangeIndex {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    /*gap: 5px;*/
+}
+.actionChangeIndex > span {
+    width: 10px;
+    height: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+.actionChangeIndex span:hover {
+    color: #f57eb6;
+}
+.actionChangeIndexUp {
+    /*transform: rotate(-90deg);*/
+}
+.actionChangeIndexDown {
+    /*transform: rotate(90deg);*/
+}

@@ -2,12 +2,13 @@ export default function Section(
     {
         children,
         paddingTopDesktop = null,
-        paddingBottomDesktop = null
+        paddingBottomDesktop = null,
+        contentWrapper = 'wrapper-1170'
     }) {
 
     return (
         <section className="section" style={{paddingTop: paddingTopDesktop, paddingBottom: paddingBottomDesktop}}>
-            <div className="wrapper wrapper-1170">
+            <div className={`wrapper ${contentWrapper}`}>
                 {children}
             </div>
         </section>

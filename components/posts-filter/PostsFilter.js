@@ -1,4 +1,4 @@
-import {fetchTaxonomy} from "../../lib/posts";
+import {fetchTaxonomy} from "../../lib/posts-loader";
 import PostsFilterItems from "./PostsFilterItems";
 import ResetFiltersButton from "./ResetFiltersButton";
 import Accordion from "../accordion/Accordion";

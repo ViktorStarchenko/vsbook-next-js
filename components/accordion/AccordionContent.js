@@ -3,7 +3,7 @@
 import { useAccordionItemContext } from "./AccordionItem";
 import {useAccordionContext} from "./Accordion";
 
-export default function AccordionContent({children, contentAbsolute = false}) {
+export default function AccordionContent({children, contentAbsolute = false, unlimitedHeight = false}) {
     const {openItemId} = useAccordionContext();
     const {id} = useAccordionItemContext();
 
@@ -11,7 +11,7 @@ export default function AccordionContent({children, contentAbsolute = false}) {
 
     return (
         <>
-            <div className={`accordion-item-content ${isOpen ? 'open' : 'close'} ${contentAbsolute ? 'content-absolute' : ''}`}>
+            <div className={`accordion-item-content ${isOpen ? 'open' : 'close'} ${contentAbsolute ? 'content-absolute' : ''} ${unlimitedHeight ? 'unlimited-height' : ''}`}>
                 {children}
             </div>
         </>

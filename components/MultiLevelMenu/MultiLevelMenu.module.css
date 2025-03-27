@@ -1,0 +1,157 @@
+.multiLevelMenu {
+    /*position: relative;*/
+}
+.multiLevelMenuNav {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 15px;
+    font-size: 14px;
+    font-weight: bold;
+    list-style: none;
+    position: relative;
+}
+.multiLevelMenuDropdown {
+    width: 100%;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background: var(--white);
+    z-index: 999;
+}
+.multiLevelMenuDropdownList {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 10px;
+    font-size: 16px;
+    font-weight: bold;
+    list-style: none;
+    padding: 10px 10px 40px;
+}
+.multiLevelMenuDropdown.open {
+    animation: slide-dropdown .6s linear 1;
+}
+.multiLevelMenuItem {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    cursor: pointer;
+}
+.multiLevelMenuLink {
+    /*font-size: 18px;*/
+    /*font-weight: 800;*/
+    /*color: #FAF3E0;*/
+    /*display: flex;*/
+    /*align-items: center;*/
+    gap: 5px;
+    /*text-decoration: none;*/
+    display: inline-flex;
+    /*padding: 0 20px;*/
+    color: var(--color-title--light);
+    line-height: 1.5;
+    text-transform: uppercase;
+    font-weight: bold;
+    position: relative;
+}
+.multiLevelMenuLink:after {
+    content: "";
+    /*left: 50%;*/
+    left: 0;
+    top: 100%;
+    margin-top: -1.5px;
+    position: absolute;
+    width: 0;
+    background: var(--accent--light);
+    /*bottom: 22px;*/
+    height: 3px;
+    -webkit-transition: all 0.2s ease 0s;
+    -o-transition: all 0.2s ease 0s;
+    transition: all 0.2s ease 0s;
+}
+.multiLevelMenuItem:hover .multiLevelMenuLink:after,
+.multiLevelMenuLink.active:after {
+    width: 100%;
+}
+/*.multiLevelMenuLink:hover,*/
+/*.multiLevelMenuLink:hover .arrow,*/
+/*.multiLevelMenuGoBack:hover {*/
+/*    color: #f77f00;*/
+/*}*/
+.arrow {
+    font-size: 12px;
+    color: var(--accent--light);
+    transition: all .1s;
+}
+.multiLevelMenuGoBack {
+    cursor: pointer;
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+:global(.theme-light) .multiLevelMenuLink,
+:global(.theme-light) .multiLevelMenuGoBack {
+    color: var(--color-secondary-light);
+}
+:global(.theme-light) .multiLevelMenuLink:hover,
+:global(.theme-light) .multiLevelMenuLink:hover .arrow,
+:global(.theme-light) .multiLevelMenuGoBack:hover {
+    color: var(--color-accent-2-light);
+}
+:global(.theme-dark) .multiLevelMenuLink,
+:global(.theme-dark) .multiLevelMenuGoBack {
+    color: var(--color-secondary-dark);
+}
+:global(.theme-dark) .multiLevelMenuLink:hover,
+:global(.theme-dark) .multiLevelMenuLink:hover .arrow,
+:global(.theme-dark) .multiLevelMenuGoBack:hover {
+    color: var(--color-accent-2-dark);
+}
+:global(.theme-light) .arrow {
+    color: var(--color-secondary-light);
+}
+@keyframes slide-dropdown {
+    0% {
+        transform: translateX(-100%);
+    }
+    100% {
+        transform: translateX(0);
+    }
+}
+@keyframes slide-to-left {
+    0% {
+        transform: translateX(100%);
+    }
+    100% {
+        transform: translateX(0);
+    }
+}
+
+@media (max-width: 940px) {
+    .multiLevelMenuNav {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .multiLevelMenuDropdown {
+        /*position: relative;*/
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: unset;
+        right: 0;
+        animation: slide-to-left .1s linear 1;
+    }
+    .multiLevelMenuDropdownList {
+        padding: 30px 0;
+    }
+    .multiLevelMenuLink,
+    .multiLevelMenuGoBack {
+        font-size: 16px;
+    }
+    .multiLevelMenuDropdown {
+
+    }
+}

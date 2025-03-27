@@ -1,5 +1,5 @@
 import PostsGridItemImage from "./PostsGridItemImage";
-import {fetchPostImage, fetchPostTaxonomies} from "../../lib/posts";
+import {fetchPostImage, fetchPostTaxonomies} from "../../lib/posts-loader";
 import itemImage from "../../public/1700488940348.jpg";
 import PostsGridItemLink from "./PostsGridItemLink";
 
