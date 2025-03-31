@@ -3,6 +3,9 @@
 import Link from "next/link";
 import {getExcerpt} from "../../lib/utils";
 import PostsGridToolTipTaxonomy from "./PostsGridToolTipTaxonomy";
+import ViewsCount from "../ViewsCount/ViewsCount";
+import FavoutiresIcon from "../FavoutiresIcon/FavoutiresIcon";
+import AddToCartButton from "../AddToCartButton/AddToCartButton";
 
 export default function PostsGridToolTip({post, taxonomies, onMouseEnter, onMouseLeave}) {
     const excerpt = getExcerpt(post.content.rendered, 100);
@@ -14,7 +17,11 @@ export default function PostsGridToolTip({post, taxonomies, onMouseEnter, onMous
             onMouseLeave={onMouseLeave}
         >
             <div className="posts-grid-tooltip-inner">
-                <div className="posts-grid-tooltip-title" dangerouslySetInnerHTML={{ __html: post.title.rendered }}></div>
+                <div className="posts-grid-tooltip-header">
+                    <div className="posts-grid-tooltip-title" dangerouslySetInnerHTML={{ __html: post.title.rendered }}></div>
+                    <ViewsCount post={post}/>
+                </div>
+
                 <div className="posts-grid-tooltip-content" dangerouslySetInnerHTML={{ __html: excerpt }}></div>
                 {taxonomies && (
                     <div className="posts-grid-tooltip-taxonomies">
@@ -27,8 +34,11 @@ export default function PostsGridToolTip({post, taxonomies, onMouseEnter, onMous
                     </div>
                 )}
                 <div className="posts-grid-tooltip-actions">
-                    <div></div>
-                    <Link className="posts-grid-tooltip-link" href={`/books/${post.slug}`}>
+                    <div className="posts-grid-tooltip-actions-icons">
+                        <AddToCartButton post={post}/>
+                        <FavoutiresIcon post={post}/>
+                    </div>
+                    <Link className="post-link" href={`/books/${post.slug}`}>
                         <span>ℹ</span>
                         Details
                     </Link>

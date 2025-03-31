@@ -15,12 +15,6 @@ export default async function PostsFilter() {
     const wrirer = await fetchTaxonomy({taxonomyName: 'wrirer'});
     return (
         <div className="filters">
-            {/*<PostsFilterItems taxonomyName="genre" taxonomy={genre}/>*/}
-            {/*<PostsFilterItems taxonomyName="language" taxonomy={language}/>*/}
-            {/*<PostsFilterItems taxonomyName="country" taxonomy={country}/>*/}
-            {/*<PostsFilterItems taxonomyName="release" taxonomy={release}/>*/}
-            {/*<PostsFilterItems taxonomyName="wrirer" taxonomy={wrirer}/>*/}
-
             <Accordion>
                 <AccordionItem id="genre">
                     <AccordionTitle className="title btn">Genre</AccordionTitle>

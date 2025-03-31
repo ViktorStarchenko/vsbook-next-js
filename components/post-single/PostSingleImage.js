@@ -3,9 +3,7 @@ import ImagePlaceholder from "../../public/1700488940348.jpg";
 import {fetchPostImage} from "../../lib/posts-loader";
 
 export default async function PostSingleImage({post}) {
-    console.log(post)
     const imageSrc = await fetchPostImage({post});
-    console.log(imageSrc)
     const renderedSrc = imageSrc || ImagePlaceholder;
 
     return (

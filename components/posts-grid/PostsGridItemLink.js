@@ -29,14 +29,12 @@ export default function PostsGridItemLink({post, taxonomies}) {
 
             </Link>
 
-            {/*{showTooltip && (*/}
-            {/*    <PostsGridToolTip*/}
-            {/*        post={post}*/}
-            {/*        taxonomies={taxonomies}*/}
-            {/*        onMouseEnter={handleMouseEnter}*/}
-            {/*        onMouseLeave={handleMouseLeave}*/}
-            {/*    />*/}
-            {/*)}*/}
+            {/*<PostsGridToolTip*/}
+            {/*    post={post}*/}
+            {/*    taxonomies={taxonomies}*/}
+            {/*    onMouseEnter={handleMouseEnter}*/}
+            {/*    onMouseLeave={handleMouseLeave}*/}
+            {/*/>*/}
             <AnimatePresence>
                 {showTooltip && (
                     <motion.div

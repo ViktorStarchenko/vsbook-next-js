@@ -1,7 +1,4 @@
-import PostsGridItemImage from "./PostsGridItemImage";
 import Link from "next/link";
-import PostsGridToolTip from "./PostsGridToolTip";
-import PostsGridItemHover from "./PostsGridItemHover";
 import PostsGridItemFront from "./PostsGridItemFront";
 
 export default function PostsGridItem({post, itemPosition}) {
@@ -16,7 +13,6 @@ export default function PostsGridItem({post, itemPosition}) {
                     <p className="posts-grid-item--description">description</p>
                 </div>
             </div>
-            {/*<PostsGridItemHover post={post}/>*/}
         </div>
     )
 }

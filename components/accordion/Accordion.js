@@ -1,6 +1,6 @@
 'use client'
 
-import {createContext, useContext, useState} from "react";
+import {createContext, useContext, useState, useRef, useEffect} from "react";
 import AccordionTitle from "./AccordionTitle";
 import AccordionContent from "./AccordionContent";
 import AccordionItem from "./AccordionItem";
@@ -19,10 +19,22 @@ export function useAccordionContext() {
 
 export default function Accordion({children}) {
     const [openItemId, setOpenItemId] = useState();
+    const accordionRef = useRef(null);
 
     function toggleOpenId(id) {
         setOpenItemId(prevOpenId => prevOpenId === id ? null : id);
     }
+
+    useEffect(() => {
+        function handleClickOutside(event) {
+            if (accordionRef.current && !accordionRef.current.contains(event.target)) {
+                setOpenItemId(null); // Закриваємо всі акордеони
+            }
+        }
+
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => document.removeEventListener("mousedown", handleClickOutside);
+    }, []);
 
     const contextValue = {
         openItemId: openItemId,
@@ -32,7 +44,7 @@ export default function Accordion({children}) {
     return (
         <>
             <AccordionContext.Provider value={contextValue}>
-                <div className="accordion-wrapper">
+                <div ref={accordionRef} className="accordion-wrapper">
                     {children}
                 </div>
             </AccordionContext.Provider>

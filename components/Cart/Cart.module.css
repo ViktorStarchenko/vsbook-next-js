@@ -1,0 +1,47 @@
+.cartWrapper {
+    width: 100%;
+}
+.cartItems {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+}
+.cartItem {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 1.5rem;
+    font-weight: bold;
+    padding: 12px 0;
+    border-bottom: 1px solid #000;
+}
+.cartItem:first-child {
+    border-top: 1px solid #000;
+}
+.cartItemTitle {
+    width: 100%;
+    max-width: 60%;
+}
+.cartItemButtons {
+    min-width: 160px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+}
+.cartItemButtons button {
+    margin: 0;
+}
+.cartQuantityInput {
+    text-align: center;
+    font-size: 1.2rem;
+    font-weight: bold;
+    max-width: 107px;
+    color: #000;
+}
+.cartQuantityInput::placeholder {
+    color: #000;
+}

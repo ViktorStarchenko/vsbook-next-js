@@ -7,7 +7,7 @@ import {fetchMainMenuData, sendMainMenuData} from "../../store/main-menu-actions
 let isInitial = true;
 
 
-export default function ClientProviderFetch() {
+export default function ClientProviderMainMenu() {
     const dispatch = useDispatch();
 
     const isMainMenuChanged = useSelector(state => state.mainMenu.changed);

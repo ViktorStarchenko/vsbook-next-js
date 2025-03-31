@@ -5,6 +5,7 @@ import Pagination from "../../components/pagination/Pagination";
 import LoadingIndicator from "../../components/loadingIndicator/LoadingIndicator";
 import Test from "../../components/Test";
 import PostsFilter from "../../components/posts-filter/PostsFilter";
+import PostsSorting from "../../components/posts-sorting/PostsSorting";
 
 export default async function Books({searchParams}) {
     const page = Number(searchParams?.page ?? "1");
@@ -26,6 +27,9 @@ export default async function Books({searchParams}) {
             <Test filtersArray={filters}/>
             <Section paddingTopDesktop="0" paddingBottomDesktop="0">
                 <PostsFilter />
+            </Section>
+            <Section paddingTopDesktop="0" paddingBottomDesktop="0">
+                <PostsSorting />
             </Section>
             <Section>
                 <h1>Books</h1>

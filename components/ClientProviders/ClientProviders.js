@@ -2,12 +2,18 @@
 
 import {Provider} from "react-redux";
 import store from "@/store/index";
-import ClientProviderFetch from "./ClientProviderFetch";
+import ClientProviderMainMenu from "./ClientProviderMainMenu";
+import ClientProviderViews from "./ClientProviderViews";
+import ClientProviderFavoutires from "./ClientProviderFavoutires";
+import ClientProviderCart from "./ClientProviderCart";
 
 export default function ClientProviders({ children }) {
     return (
         <Provider store={store}>
-            <ClientProviderFetch />
+            <ClientProviderMainMenu />
+            <ClientProviderViews />
+            <ClientProviderFavoutires />
+            <ClientProviderCart />
             {children}
         </Provider>
     );
