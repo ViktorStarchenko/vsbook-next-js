@@ -6,10 +6,12 @@ import PostSingleViews from "./PostSingleViews";
 import FavoutiresButton from "../FavoutiresIcon/FavoutiresButton";
 import PostInfoTaxonomies from "../PostEntryInfo/PostInfoTaxonomies";
 import PostEntryActions from "../PostEntryActions/PostEntryActions";
+import PostsMostViewed from "../posts-most-viewed/PostsMostViewed";
 
 export default async function PostSingle({post}) {
     const terms = post._links['wp:term'];
     const taxonomies = await fetchPostTaxonomies({postId: post.id, terms});
+
     return (
         <div className="post-container sidebar-enabled sidebar-right">
             <div className="post-single">
@@ -241,6 +243,7 @@ export default async function PostSingle({post}) {
             </div>
             <div className="sidebar sidebar-left">
                 <h2>Sidebar</h2>
+                <PostsMostViewed />
             </div>
         </div>
     )

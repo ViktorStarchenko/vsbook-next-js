@@ -31,7 +31,7 @@ export default async function Home({searchParams}) {
         <Section>
           <h1>Home Page</h1>
             {/*<PostsGrid posts={posts.posts}/>*/}
-            <PostsList posts={posts.posts}/>
+            <PostsList posts={posts.posts} layout="col-2"/>
         </Section>
       </>
   );
