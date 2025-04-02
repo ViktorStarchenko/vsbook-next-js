@@ -39,7 +39,7 @@ export default function PostsMostViewed() {
 
     return (
         <div className="most-viewed">
-            <h3 className="h4">Most Viewed</h3>
+            <h3 className="widget-title">Most Viewed</h3>
             {content}
         </div>
     )

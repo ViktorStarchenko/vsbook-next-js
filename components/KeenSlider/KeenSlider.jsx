@@ -19,6 +19,7 @@ export default function KeenSlider(
         mode = 'snap',
         vertical = false,
         origin = 'auto',
+        layout = 'grid',
         children
     }) {
     const [sliderRef, instanceRef] = useKeenSlider(
@@ -55,7 +56,7 @@ export default function KeenSlider(
     }, [children]);
 
     return (
-        <div key={children.length} className={`keen-slider-block ${vertical ? 'vertical' : ''}`}>
+        <div key={children.length} className={`keen-slider-block ${vertical ? 'vertical' : ''} ${layout}`}>
             {title && <h2 className="h2">{title}</h2>}
             <div className="keen-slider-wrapper">
                 <div ref={sliderRef} className="keen-slider">

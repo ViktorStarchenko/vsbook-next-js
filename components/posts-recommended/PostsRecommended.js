@@ -3,6 +3,9 @@
 import { useState, useEffect, useMemo } from 'react';
 import { parseHTML } from "../../lib/utils";
 import PostsList from "../posts-list/PostsList";
+import KeenSlider from "../KeenSlider/KeenSlider";
+import KeenSliderSlide from "../KeenSlider/KeenSliderSlide";
+import PostsListItem from "../posts-list/PostsListitem";
 
 export default function PostsRecommended({ post }) {
     const [queryText, setQueryText] = useState('');
@@ -61,8 +64,17 @@ export default function PostsRecommended({ post }) {
 
     return (
         <div>
-            <h3 className="h4">Recommended</h3>
-            {posts?.posts.length > 0 && <PostsList posts={posts.posts} layout="sidebar-snippet" />}
+            <h3 className="widget-title">You may also like</h3>
+            {/*{posts?.posts.length > 0 && <PostsList posts={posts.posts} layout="sidebar-snippet" />}*/}
+            {posts?.posts.length > 0 && (
+                <KeenSlider layout="list-small" perView="1" perView1024="1" perView767="1" perView600="1">
+                    {posts.posts.map(item => (
+                        <KeenSliderSlide key={`recommended-slide-${item.id}`}>
+                            <PostsListItem post={item}/>
+                        </KeenSliderSlide>
+                    ))}
+                </KeenSlider>
+            )}
         </div>
     );
 }

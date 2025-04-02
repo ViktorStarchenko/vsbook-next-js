@@ -45,7 +45,7 @@ export default async function Home({searchParams}) {
           </Section>
           <Section>
 
-              <KeenSlider>
+              <KeenSlider layout="grid">
                   {posts.posts.map(item => (
                     <KeenSliderSlide key={`slide-${item.id}`}>
                         <PostsGridItem post={item}/>

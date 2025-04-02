@@ -8,6 +8,7 @@ import PostInfoTaxonomies from "../PostEntryInfo/PostInfoTaxonomies";
 import PostEntryActions from "../PostEntryActions/PostEntryActions";
 import PostsMostViewed from "../posts-most-viewed/PostsMostViewed";
 import PostsRecommended from "../posts-recommended/PostsRecommended";
+// import RecentryViewed from "../RecentryViewed/RecentryViewed";
 
 export default async function PostSingle({post}) {
     const terms = post._links['wp:term'];
@@ -54,6 +55,9 @@ export default async function PostSingle({post}) {
                         <h3 className="info-name amy-title">Video &amp; Photo</h3>
                         <div className="number-media">
                             <span className="gallery"><i></i>7 photos</span>
+                        </div>
+                        <div>
+                            {/*<RecentryViewed />*/}
                         </div>
                         {/*<div className="media-carousel">*/}
                         {/*    <div className="amy-slick slick-initialized slick-slider"*/}
@@ -245,7 +249,6 @@ export default async function PostSingle({post}) {
                 </article>
             </div>
             <div className="sidebar sidebar-left">
-                <h2>Sidebar</h2>
                 <PostsRecommended post={post}/>
                 <PostsMostViewed />
             </div>

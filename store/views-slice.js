@@ -3,7 +3,8 @@ import {createSlice} from "@reduxjs/toolkit";
 const viewsInitialState = {
     items: [],
     loading: false,
-    changed: false
+    changed: false,
+    initiallyLoaded: false
 }
 
 const viewsSlice = createSlice({
@@ -33,6 +34,9 @@ const viewsSlice = createSlice({
         replaceViewsItems(state, action) {
             state.items = action.payload;
             state.changed = true;
+        },
+        updateInitiallyLoaded(state, action) {
+            state.initiallyLoaded = action.payload;
         }
     }
 })
