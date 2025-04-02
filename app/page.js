@@ -3,6 +3,7 @@ import Section from "../components/section/Section";
 import PostsGrid from "../components/posts-grid/PostsGrid";
 import {fetchPosts} from "../lib/posts-loader";
 import PostsList from "../components/posts-list/PostsList";
+import SearchComponent from "../components/SearchComponent";
 
 // export async function Posts() {
 //     const posts = await fetchPosts({page: 1, perPage: 4, sortOrder: "desc", filtersArray: null, idsArray: null});
@@ -12,9 +13,9 @@ import PostsList from "../components/posts-list/PostsList";
 
 export default async function Home({searchParams}) {
 
-    const page = Number(searchParams?.page ?? "1");
+    const page = Number(await searchParams?.page ?? "1");
     const filtersArray = Array.from(await searchParams).toString();
-    const params = new URLSearchParams(searchParams.toString())
+    const params = new URLSearchParams(await searchParams.toString())
     const filters = await searchParams
 
 
@@ -31,8 +32,13 @@ export default async function Home({searchParams}) {
         <Section>
           <h1>Home Page</h1>
             {/*<PostsGrid posts={posts.posts}/>*/}
-            <PostsList posts={posts.posts} layout="col-2"/>
         </Section>
+          <Section>
+              <SearchComponent />
+          </Section>
+          <Section>
+              <PostsList posts={posts.posts} layout="col-2"/>
+          </Section>
       </>
   );
 }

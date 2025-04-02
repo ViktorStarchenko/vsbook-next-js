@@ -1,6 +1,6 @@
 import FavoutiresButton from "../FavoutiresIcon/FavoutiresButton";
-import PostSingleViews from "../post-single/PostSingleViews";
 import Link from "next/link";
+// import ViewsCount from "../ViewsCount/ViewsCount";
 
 export default function PostEntryActions({post, enableGoto = false, gotoText = 'Detail'}) {
 
@@ -11,9 +11,9 @@ export default function PostEntryActions({post, enableGoto = false, gotoText = '
                     <li>
                         <FavoutiresButton post={post}/>
                     </li>
-                    <li>
-                        <PostSingleViews post={post}/>
-                    </li>
+                    {/*<li>*/}
+                    {/*    <ViewsCount post={post}/>*/}
+                    {/*</li>*/}
                     <li>
                         <a href="http://pinterest.com/pin/create/button/?url=http://demo.amytheme.com/movie/demo/elementor-movie-news/amy_movie/kubo-and-the-two-strings/"
                            className="fab fa-pinterest" target="_blank"></a>
