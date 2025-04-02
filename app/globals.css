@@ -40,6 +40,14 @@
   --font-family: 'proxima-nova';
   --font-weight-300: 300;
   --font-weight-normal: 300;
+
+  --post-grid-poster-height: 357px;
+}
+
+@media screen and (max-width: 570px) {
+  :root {
+    --post-grid-poster-height: 250px;
+  }
 }
 
 @media (prefers-color-scheme: dark) {
@@ -674,7 +682,8 @@ Posts List
 }
 
 @media (max-width: 920px) {
-  .posts-list-item {
+  .posts-list-item,
+  .posts-list.col-2 .posts-list-item {
     width: 100%;
   }
   .posts-list .posts-list-item-back-inner {
@@ -1562,4 +1571,39 @@ CArt Button Cart Icon
 }
 .cart-link {
   cursor: pointer;
+}
+
+
+/***************************************
+Keen Slider
+****************************************/
+.keen-slider-wrapper {
+  position: relative;
+}
+.keen-slider .posts-grid-item {
+  width: 100%;
+}
+.keen-arrow-button {
+  background: rgba(0, 0, 0, 0.5) none repeat scroll 0 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 30px;
+  padding: 0;
+  width: 30px;
+  border: none;
+  position: absolute;
+  top: calc((var(--post-grid-poster-height) / 2) - 15px);
+  cursor: pointer;
+}
+.keen-arrow-button.prev {
+  left: 5px;
+}
+.keen-arrow-button.next {
+  left: unset;
+  right: 5px;
+}
+.keen-arrow-button svg {
+  height: 20px;
+  fill: var(--white);
 }
