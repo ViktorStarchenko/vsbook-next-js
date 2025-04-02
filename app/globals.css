@@ -572,6 +572,9 @@ Posts List
   flex-wrap: wrap;
   gap: 2rem;
 }
+.posts-list.sidebar-snippet {
+  gap: 1rem;
+}
 .posts-list-item {
   width: 100%;
   display: flex;
@@ -580,7 +583,7 @@ Posts List
 .posts-list.col-2 .posts-list-item {
   width: calc(50% - 1rem);
 }
-.posts-list.sidebar-snippet .posts-list .info-list {
+.posts-list.sidebar-snippet .info-list {
   display: none;
 }
 .posts-list-item-front {
@@ -600,13 +603,11 @@ Posts List
 .posts-list-item-poster img {
   object-fit: cover;
 }
-.posts-list-item-back-inner {
-  min-height: 294px;
-}
 .posts-list-item-back {
   width: 100%;
 }
-.posts-list-item-back .posts-list-item-back-inner {
+.posts-list-item-back-inner {
+  min-height: 294px;
   display: -webkit-flex;
   display: flex;
   -webkit-flex-wrap: wrap;
@@ -616,6 +617,9 @@ Posts List
   flex-direction: column;
   -webkit-flex-direction: column;
   position: relative;
+}
+.sidebar-snippet .posts-list-item-back-inner {
+  min-height: 159px;
 }
 .posts-list-grid-2 .posts-list-list .posts-list-items .posts-list-item .posts-list-item-back .posts-list-item-back-inner .posts-list-item-content,
 .posts-list-layout-list .posts-list-list .posts-list-items .posts-list-item .posts-list-item-back .posts-list-item-back-inner .posts-list-item-content {
@@ -665,6 +669,9 @@ Posts List
 .posts-list .entry-action {
   margin-top: 10px;
 }
+.sidebar-snippet .entry-action {
+  display: none;
+}
 
 @media (max-width: 920px) {
   .posts-list-item {
@@ -687,6 +694,10 @@ Posts List
   }
 
 }
+
+/***********************************
+Posts Most Viewed
+************************************/
 
 /***********************************
 Loading Spinner
@@ -956,6 +967,10 @@ Post Details Single Post
 }
 .entry-content {
   margin-top: 25px;
+}
+
+.sidebar-snippet .entry-title {
+  font-size: 16px;
 }
 @media (max-width: 920px) {
   .post-container {

@@ -3,15 +3,15 @@
 import {useState, useEffect, useMemo} from 'react';
 import {useSelector} from "react-redux";
 import {sortByViewsCountDescending} from "../../lib/utils";
+import PostsList from "../posts-list/PostsList";
 
 export default function PostsMostViewed() {
-    const [posts, setPosts] = useState([]);
+    const [posts, setPosts] = useState(null);
     const viewedItems = useSelector(state => state.views.items);
-    console.log("viewedItems", viewedItems)
-
+    // console.log("viewedItems", viewedItems)
 
     const newIds = useMemo(() => {
-        return sortByViewsCountDescending(viewedItems, 5).map(item => item.id);
+        return sortByViewsCountDescending(viewedItems, 3).map(item => item.id);
     }, [viewedItems]);
     //
     useEffect(() => {
@@ -30,15 +30,17 @@ export default function PostsMostViewed() {
         }
     }, [newIds]);
 
-    console.log("Fetched posts:", posts);
+    // console.log("Fetched posts:", posts);
 
     let content;
-    // if (posts && posts.posts.length > 0) {
-    //     content = <PostsList posts={posts.posts}/>
-    // }
+    if (posts && posts.posts.length > 0) {
+        content = <PostsList posts={posts.posts} layout="sidebar-snippet"/>
+    }
 
     return (
-        <div>
+        <div className="most-viewed">
+            <h3 className="h4">Most Viewed</h3>
+            {content}
         </div>
     )
 }

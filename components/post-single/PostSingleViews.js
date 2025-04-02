@@ -9,10 +9,8 @@ export default function PostSingleViews({post}) {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        if (post) {
-            dispatch(viewsSliceActions.updateItemViews(post.id));
-        }
-    }, [dispatch, post])
+        dispatch(viewsSliceActions.updateItemViews(post.id));
+    }, [dispatch, post.id]);
 
     return (
         <div>

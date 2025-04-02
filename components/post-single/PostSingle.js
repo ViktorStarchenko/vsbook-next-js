@@ -7,6 +7,7 @@ import FavoutiresButton from "../FavoutiresIcon/FavoutiresButton";
 import PostInfoTaxonomies from "../PostEntryInfo/PostInfoTaxonomies";
 import PostEntryActions from "../PostEntryActions/PostEntryActions";
 import PostsMostViewed from "../posts-most-viewed/PostsMostViewed";
+import PostsRecommended from "../posts-recommended/PostsRecommended";
 
 export default async function PostSingle({post}) {
     const terms = post._links['wp:term'];
@@ -27,7 +28,9 @@ export default async function PostSingle({post}) {
                         <div className="entry-info">
                             <h1 className="entry-title p-name" itemProp="name headline" dangerouslySetInnerHTML={{ __html: post.title.rendered }}></h1>
                             <div className="entry-pg">
-                                <span className="pg">G</span>
+                                <span className="pg">
+                                    <PostSingleViews post={post}/>
+                                </span>
 
                                 <span className="duration">
 			<i className="fa fa-clock-o"></i>
@@ -243,6 +246,7 @@ export default async function PostSingle({post}) {
             </div>
             <div className="sidebar sidebar-left">
                 <h2>Sidebar</h2>
+                <PostsRecommended post={post}/>
                 <PostsMostViewed />
             </div>
         </div>
