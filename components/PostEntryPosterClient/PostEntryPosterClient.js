@@ -2,32 +2,28 @@
 
 import Image from "next/image";
 import itemImage from "../../public/1700488940348.jpg";
-import {useQuery} from "@tanstack/react-query";
+import Link from "next/link";
+import {usePostImage} from "../../hooks/usePostImage";
+import LoadingIndicator from "../loadingIndicator/LoadingIndicator";
 
 export default function PostEntryPosterClient({post}) {
-    const imageUrl = post?._links?.['wp:featuredmedia']?.[0]?.href || null;
-
-    const {data: imageSrc, isLoading} = useQuery({
-        queryKey: ['postImage', {postId: post.id, imageUrl: imageUrl}],
-        queryFn: async () => {
-            if (!imageUrl) {return null}
-            const response = await fetch(`/api/post-image?imageUrl=${imageUrl}`);
-            return response.json();
-        },
-        enabled: !!imageUrl
-    })
+    const {data, isLoading} = usePostImage(post);
     // console.log("imageUrl", imageUrl)
     // console.log("imageSrc", imageSrc)
+    const imageSrc = data ? data  : itemImage
     return (
         <div className="posts-list-item-poster">
-            <a className="post-poster poster-hover-area" href={`/books/${post.slug}`}>
-                <Image
-                    src={imageSrc ? imageSrc  : itemImage}
-                    alt={post.title.rendered}
-                    title={post.title.rendered}
-                    fill
-                />
-            </a>
+            <Link className="post-poster poster-hover-area" href={`/books/${post.slug}`}>
+                {isLoading && <LoadingIndicator />}
+                {imageSrc && (
+                    <Image
+                        src={imageSrc}
+                        alt={post.title.rendered}
+                        title={post.title.rendered}
+                        fill
+                    />
+                )}
+            </Link>
         </div>
     )
 }

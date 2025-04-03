@@ -55,7 +55,7 @@ export default function PostsRecommended({ post }) {
             {isEmbeddingLoading || isPostsLoading ? <LoadingIndicator /> : null}
             {postsData?.posts?.length > 0 && (
                 <KeenSlider layout="list-small" perView="1" perView1024="1" perView767="1" perView600="1">
-                    {postsData.posts.map(item => (
+                    {postsData?.posts.map(item => (
                         <KeenSliderSlide key={`recommended-slide-${item.id}`}>
                             <PostsListItemClient post={item} />
                         </KeenSliderSlide>

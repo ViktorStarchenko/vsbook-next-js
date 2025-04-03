@@ -1,6 +1,7 @@
 import Image from "next/image";
 import itemImage from "../../public/1700488940348.jpg";
 import {fetchPostImageByUrl} from "../../lib/posts-loader";
+import Link from "next/link";
 
 export default async function PostEntryPoster({post}) {
 
@@ -10,14 +11,14 @@ export default async function PostEntryPoster({post}) {
 
     return (
         <div className="posts-list-item-poster">
-            <a className="post-poster poster-hover-area" href={`/books/${post.slug}`}>
+            <Link className="post-poster poster-hover-area" href={`/books/${post.slug}`}>
                 <Image
                     src={imageSrc ? imageSrc  : itemImage}
                     alt={post.title.rendered}
                     title={post.title.rendered}
                     fill
                 />
-            </a>
+            </Link>
         </div>
     )
 }

@@ -8,15 +8,19 @@ import {viewedPostsActions} from "../../store/viewed-posts";
 
 export default function PostSingleViews({post}) {
     const dispatch = useDispatch();
-    const initiallyLoaded = useSelector(state => state.views.initiallyLoaded);
+    const initiallyLoadedViews = useSelector(state => state.views.initiallyLoaded);
+    const initiallyLoadedRecentryViewed = useSelector(state => state.recentlyViewed.initiallyLoaded);
 
     useEffect(() => {
-        if (initiallyLoaded) {
+        if (initiallyLoadedViews) {
             dispatch(viewsSliceActions.updateItemViews(post.id));
+        }
+        if (initiallyLoadedRecentryViewed) {
             dispatch(viewedPostsActions.addViewed(post));
         }
-    }, [dispatch, post.id, initiallyLoaded]);
-    // console.log("initiallyLoaded", initiallyLoaded)
+    }, [dispatch, post.id, initiallyLoadedViews, initiallyLoadedRecentryViewed]);
+    console.log("initiallyLoadedViews", initiallyLoadedViews)
+    console.log("initiallyLoadedRecentryViewed", initiallyLoadedRecentryViewed)
     return (
         <div>
             <ViewsCount post={post}/>
