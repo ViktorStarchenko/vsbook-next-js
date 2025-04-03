@@ -4,7 +4,7 @@ import SearchResult from "../../components/SearchResult/SearchResult";
 export default async function SearchPage({searchParams}) {
     const {search_bar} = await searchParams || null;
 
-    console.log("searchBar", search_bar)
+    // console.log("searchBar", search_bar)
 
     return (
         <Section>

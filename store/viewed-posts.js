@@ -1,7 +1,8 @@
 import {createSlice} from "@reduxjs/toolkit";
 
 const initialViewedPostsState = {
-    recentlyViewed: []
+    recentlyViewed: [],
+    initiallyLoaded: false
 }
 
 export const TOGGLE_VIEWED = "TOGGLE_VIEWED";
@@ -20,6 +21,9 @@ const viewedPostsSlice = createSlice({
                     ? [...state.recentlyViewed, action.payload]
                     : [...state.recentlyViewed],
             };
+        },
+        updateInitiallyLoaded(state, action) {
+            state.initiallyLoaded = action.payload;
         }
     }
 })

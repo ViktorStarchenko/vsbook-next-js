@@ -8,7 +8,7 @@ import LoadingIndicator from "../loadingIndicator/LoadingIndicator";
 
 export default function SearchResult({searchBar}) {
     const [queryText, setQueryText] = useState(searchBar || null);
-    console.log("SEARCHRESULT queryString: ", queryText)
+    // console.log("SEARCHRESULT queryString: ", queryText)
 
     useEffect(() => {
         setQueryText(searchBar);
