@@ -1,7 +1,10 @@
 import PostInfoTaxonomiesItem from "./PostInfoTaxonomiesItem";
+import {fetchPostTaxonomies} from "../../lib/posts-loader";
 
-export default function PostInfoTaxonomies({taxonomies, wordWrap = false}) {
-
+export default async function PostInfoTaxonomies({post, wordWrap = false}) {
+    console.log("PostInfoTaxonomies post ", post)
+    const terms = post._links['wp:term'];
+    const taxonomies = await fetchPostTaxonomies({postId: post.id, terms});
     return (
         <ul className="info-list">
             {taxonomies && taxonomies.genre && <PostInfoTaxonomiesItem termName="Genre" term={taxonomies.genre} wordWrap={wordWrap}/>}

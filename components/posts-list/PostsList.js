@@ -1,4 +1,4 @@
-import PostsListItem from "./PostsListitem";
+import PostsListItem from "./PostsListItem";
 
 export default function PostsList({posts, layout = 'col-1'}) {
 

@@ -4,7 +4,7 @@ import PostSingleTaxonomies from "./PostSingleTaxonomies";
 import {fetchPostTaxonomies} from "../../lib/posts-loader";
 import PostSingleViews from "./PostSingleViews";
 import FavoutiresButton from "../FavoutiresIcon/FavoutiresButton";
-import PostInfoTaxonomies from "../PostEntryInfo/PostInfoTaxonomies";
+import PostInfoTaxonomies from "../PostInfoTaxonomies/PostInfoTaxonomies";
 import PostEntryActions from "../PostEntryActions/PostEntryActions";
 import PostsMostViewed from "../posts-most-viewed/PostsMostViewed";
 import PostsRecommended from "../posts-recommended/PostsRecommended";
@@ -38,7 +38,7 @@ export default async function PostSingle({post}) {
 			02 hours 00 minutes		</span>
                             </div>
 
-                            <PostInfoTaxonomies taxonomies={taxonomies}/>
+                            <PostInfoTaxonomies post={post}/>
                             {/*<PostSingleTaxonomies taxonomies={taxonomies}/>*/}
 
                             <PostEntryActions post={post}/>

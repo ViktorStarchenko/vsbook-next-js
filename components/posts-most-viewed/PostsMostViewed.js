@@ -1,46 +1,34 @@
 'use client'
 
-import {useState, useEffect, useMemo} from 'react';
+import {useMemo} from 'react';
 import {useSelector} from "react-redux";
 import {sortByViewsCountDescending} from "../../lib/utils";
-import PostsList from "../posts-list/PostsList";
+import {useQuery} from "@tanstack/react-query";
+import PostsListClient from "../posts-list-client/PostsListClient";
 
 export default function PostsMostViewed() {
-    const [posts, setPosts] = useState(null);
     const viewedItems = useSelector(state => state.views.items);
-    // console.log("viewedItems", viewedItems)
 
     const newIds = useMemo(() => {
         return sortByViewsCountDescending(viewedItems, 3).map(item => item.id);
     }, [viewedItems]);
     //
-    useEffect(() => {
-        async function loadPosts() {
-            try {
-                const response = await fetch(`/api/posts?page=1&perPage=5&sortOrder=desc&idsArray=${JSON.stringify(newIds)}`);
-                const data = await response.json();
-                setPosts(data);
-            } catch (error) {
-                console.error("Failed to fetch posts:", error);
-            }
-        }
 
-        if (newIds.length > 0) {
-            loadPosts();
-        }
-    }, [newIds]);
-
-    // console.log("Fetched posts:", posts);
-
-    let content;
-    if (posts && posts.posts.length > 0) {
-        content = <PostsList posts={posts.posts} layout="sidebar-snippet"/>
-    }
+    const {data, isLoading} = useQuery({
+        queryKey: ['posts', newIds],
+        queryFn: async () => {
+            if (!newIds) {return}
+            const response = await fetch(`/api/posts?page=1&perPage=5&sortOrder=desc&idsArray=${JSON.stringify(newIds)}`);
+            return response.json();
+        },
+        enabled: newIds.length > 0
+    })
 
     return (
         <div className="most-viewed">
             <h3 className="widget-title">Most Viewed</h3>
-            {content}
+            {isLoading ? <p>Loading...</p> : null}
+            {data?.posts?.length > 0 && <PostsListClient posts={data?.posts} layout="sidebar-snippet"/>}
         </div>
     )
 }

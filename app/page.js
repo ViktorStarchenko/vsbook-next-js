@@ -6,7 +6,7 @@ import PostsList from "../components/posts-list/PostsList";
 import SearchComponent from "../components/SearchComponent";
 import KeenSlider from "../components/KeenSlider/KeenSlider";
 import KeenSliderSlide from "../components/KeenSlider/KeenSliderSlide";
-import PostsListItem from "../components/posts-list/PostsListitem";
+import PostsListItem from "../components/posts-list/PostsListItem";
 import PostsGridItem from "../components/posts-grid/PostsGridItem";
 
 // export async function Posts() {
