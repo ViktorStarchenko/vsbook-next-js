@@ -1,17 +1,14 @@
 'use client'
 
-import { useState, useEffect, useMemo } from 'react';
-import { parseHTML } from "../../lib/utils";
-import PostsList from "../posts-list/PostsList";
+import { useState, useEffect } from 'react';
+import { parseHTML } from "../../lib/client-utils";
 import KeenSlider from "../KeenSlider/KeenSlider";
 import KeenSliderSlide from "../KeenSlider/KeenSliderSlide";
-import PostsListItem from "../posts-list/PostsListitem";
+import { useQuery } from "@tanstack/react-query";
+import PostsListItemClient from "../posts-list-client/PostsListItemClient";
 
 export default function PostsRecommended({ post }) {
     const [queryText, setQueryText] = useState('');
-    const [embeddingResult, setEmbeddingResult] = useState([]);
-    const [embeddingIds, setEmbeddingIds] = useState([]);
-    const [posts, setPosts] = useState(null);
 
     useEffect(() => {
         if (post) {
@@ -19,58 +16,47 @@ export default function PostsRecommended({ post }) {
         }
     }, [post]);
 
-    useEffect(() => {
-        if (!queryText) return;
+    // API request to get embedding results
+    const { data: embeddingResult = [], isLoading: isEmbeddingLoading } = useQuery({
+        queryKey: ['embeddingResult', queryText],
+        queryFn: async () => {
+            if (!queryText) return [];
+            const response = await fetch("/api/pinecone/search", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ namespace: "example-namespace", queryText })
+            });
+            const data = await response.json();
+            return data.matches || [];
+        },
+        enabled: !!queryText // The query is executed only if `queryText` is present.
+    });
 
-        const fetchData = async () => {
-            try {
-                const response = await fetch("/api/pinecone/search", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ namespace: "example-namespace", queryText })
-                });
-                const data = await response.json();
-                setEmbeddingResult(data.matches || []);
-            } catch (error) {
-                console.error("Failed to fetch embeddings:", error);
-            }
-        };
+    // Generating an array of IDs to query posts
+    const embeddingIds = embeddingResult
+        .filter(item => item.id !== post.id.toString())
+        .map(item => item.id);
 
-        fetchData();
-    }, [queryText]);
-
-    useEffect(() => {
-        if (!embeddingResult.length) return;
-
-        const newIds = embeddingResult
-            .filter(item => item.id !== post.id.toString())
-            .map(item => item.id);
-        setEmbeddingIds(newIds);
-
-        if (newIds.length > 0) {
-            const loadPosts = async () => {
-                try {
-                    const response = await fetch(`/api/posts?page=1&perPage=5&sortOrder=desc&idsArray=${JSON.stringify(newIds)}`);
-                    const data = await response.json();
-                    setPosts(data);
-                } catch (error) {
-                    console.error("Failed to fetch posts:", error);
-                }
-            };
-
-            loadPosts();
-        }
-    }, [embeddingResult, post.id]);
+    // Request posts by found IDs
+    const { data: postsData, isLoading: isPostsLoading } = useQuery({
+        queryKey: ['posts', embeddingIds],
+        queryFn: async () => {
+            if (!embeddingIds.length) return { posts: [] };
+            const response = await fetch(`/api/posts?page=1&perPage=5&sortOrder=desc&idsArray=${JSON.stringify(embeddingIds)}`);
+            return response.json();
+        },
+        enabled: embeddingIds.length > 0 // The request is executed only if there is an ID
+    });
 
     return (
         <div>
             <h3 className="widget-title">You may also like</h3>
-            {/*{posts?.posts.length > 0 && <PostsList posts={posts.posts} layout="sidebar-snippet" />}*/}
-            {posts?.posts.length > 0 && (
+            {isEmbeddingLoading || isPostsLoading ? <p>Loading...</p> : null}
+            {postsData?.posts?.length > 0 && (
                 <KeenSlider layout="list-small" perView="1" perView1024="1" perView767="1" perView600="1">
-                    {posts.posts.map(item => (
+                    {postsData.posts.map(item => (
                         <KeenSliderSlide key={`recommended-slide-${item.id}`}>
-                            <PostsListItem post={item}/>
+                            <PostsListItemClient post={item} />
                         </KeenSliderSlide>
                     ))}
                 </KeenSlider>

@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import {sortByViewsCountDescending} from "../lib/utils";
 import Section from "./section/Section";
-import PostsList from "./posts-list/PostsList";
+import PostsListClient from "./posts-list-client/PostsListClient";
 
 export default function SearchComponent() {
     const [posts, setPosts] = useState(null)
@@ -49,7 +49,7 @@ export default function SearchComponent() {
 
     let content;
     if (posts && posts.posts.length > 0) {
-        content = <PostsList posts={posts.posts} layout="col-2"/>
+        content = <PostsListClient posts={posts.posts} layout="col-2"/>
     }
 
     return (

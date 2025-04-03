@@ -4,10 +4,6 @@ import "./globals.css";
 import Header from "../components/header/Header";
 import Footer from "../components/footer/Footer";
 import PageContent from "../components/PageContent/PageContent";
-import LoadingIndicator from "../components/loadingIndicator/LoadingIndicator";
-import PageLoader from "./books/PageLoader";
-import {Provider} from "react-redux";
-import {store} from "@/store/index";
 import ClientProviders from "../components/ClientProviders/ClientProviders";
 
 const geistSans = Geist({
@@ -26,17 +22,18 @@ export const metadata = {
 };
 
 export default function RootLayout({ children }) {
+
   return (
       <ClientProviders>
-        <html lang="en">
+          <html lang="en">
           <body>
-              <Header />
-              <PageContent>
-                {children}
-              </PageContent>
-              <Footer />
+          <Header />
+          <PageContent>
+              {children}
+          </PageContent>
+          <Footer />
           </body>
-        </html>
-    </ClientProviders>
+          </html>
+      </ClientProviders>
   );
 }
