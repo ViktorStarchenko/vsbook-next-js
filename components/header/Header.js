@@ -3,6 +3,7 @@ import Image from "next/image";
 import MultiLevelMenu from "../MultiLevelMenu/MultiLevelMenu";
 import HeaderMobileMenu from "./HeaderMobileMenu";
 import HeaderDesktopMenu from "./HeaderDesktopMenu";
+import HeaderAuthMenu from "./HeaderAuthMenu";
 
 export default function Header() {
 
@@ -31,8 +32,11 @@ export default function Header() {
                                 {/*    </li>*/}
                                 {/*</ul>*/}
                                 <HeaderDesktopMenu />
+                                <HeaderAuthMenu />
                                 <HeaderMobileMenu />
+
                             </nav>
+
                         </div>
                     </div>
                 </div>

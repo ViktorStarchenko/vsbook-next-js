@@ -6,6 +6,7 @@ import KeenSlider from "../KeenSlider/KeenSlider";
 import KeenSliderSlide from "../KeenSlider/KeenSliderSlide";
 import { useQuery } from "@tanstack/react-query";
 import PostsListItemClient from "../posts-list-client/PostsListItemClient";
+import LoadingIndicator from "../loadingIndicator/LoadingIndicator";
 
 export default function PostsRecommended({ post }) {
     const [queryText, setQueryText] = useState('');
@@ -51,7 +52,7 @@ export default function PostsRecommended({ post }) {
     return (
         <div>
             <h3 className="widget-title">You may also like</h3>
-            {isEmbeddingLoading || isPostsLoading ? <p>Loading...</p> : null}
+            {isEmbeddingLoading || isPostsLoading ? <LoadingIndicator /> : null}
             {postsData?.posts?.length > 0 && (
                 <KeenSlider layout="list-small" perView="1" perView1024="1" perView767="1" perView600="1">
                     {postsData.posts.map(item => (

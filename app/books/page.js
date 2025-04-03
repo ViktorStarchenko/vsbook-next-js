@@ -24,7 +24,6 @@ export default async function Books({searchParams}) {
 
     return (
         <>
-            <Test filtersArray={filters}/>
             <Section paddingTopDesktop="0" paddingBottomDesktop="0">
                 <PostsFilter />
             </Section>

@@ -16,8 +16,8 @@ export default function PostEntryPosterClient({post}) {
         },
         enabled: !!imageUrl
     })
-    console.log("imageUrl", imageUrl)
-    console.log("imageSrc", imageSrc)
+    // console.log("imageUrl", imageUrl)
+    // console.log("imageSrc", imageSrc)
     return (
         <div className="posts-list-item-poster">
             <a className="post-poster poster-hover-area" href={`/books/${post.slug}`}>

@@ -1,6 +1,8 @@
 'use client'
 import {useRef, useState} from 'react';
 import MultiLevelMenu from "../MultiLevelMenu/MultiLevelMenu";
+import HeaderAuthMenu from "./HeaderAuthMenu";
+import SearchBar from "../SearchBar/SearchBar";
 
 export default function HeaderMobileMenu() {
 
@@ -14,6 +16,7 @@ export default function HeaderMobileMenu() {
                 <span>{openMobileMenu ? '⤬' : '☰'}</span>
             </div>
             <div className="mobile-menu-container">
+                <SearchBar />
                 <MultiLevelMenu ref={mobileMenuTogglerRef} setOpenMobileMenu={setOpenMobileMenu}/>
             </div>
         </div>

@@ -16,7 +16,7 @@ export default function PostSingleViews({post}) {
             dispatch(viewedPostsActions.addViewed(post));
         }
     }, [dispatch, post.id, initiallyLoaded]);
-    console.log("initiallyLoaded", initiallyLoaded)
+    // console.log("initiallyLoaded", initiallyLoaded)
     return (
         <div>
             <ViewsCount post={post}/>

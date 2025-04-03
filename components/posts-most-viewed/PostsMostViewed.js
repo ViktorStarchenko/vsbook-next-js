@@ -5,6 +5,7 @@ import {useSelector} from "react-redux";
 import {sortByViewsCountDescending} from "../../lib/utils";
 import {useQuery} from "@tanstack/react-query";
 import PostsListClient from "../posts-list-client/PostsListClient";
+import LoadingIndicator from "../loadingIndicator/LoadingIndicator";
 
 export default function PostsMostViewed() {
     const viewedItems = useSelector(state => state.views.items);
@@ -27,7 +28,7 @@ export default function PostsMostViewed() {
     return (
         <div className="most-viewed">
             <h3 className="widget-title">Most Viewed</h3>
-            {isLoading ? <p>Loading...</p> : null}
+            {isLoading ? <LoadingIndicator /> : null}
             {data?.posts?.length > 0 && <PostsListClient posts={data?.posts} layout="sidebar-snippet"/>}
         </div>
     )
