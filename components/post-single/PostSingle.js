@@ -9,8 +9,11 @@ import PostEntryActions from "../PostEntryActions/PostEntryActions";
 import PostsMostViewed from "../posts-most-viewed/PostsMostViewed";
 import PostsRecommended from "../posts-recommended/PostsRecommended";
 import RecentryViewed from "../RecentryViewed/RecentryViewed";
+import PostEntryDelete from "../PostEntryDelete/PostEntryDelete";
+import {getAuthToken} from "../../lib/auth";
 
 export default async function PostSingle({post}) {
+    const token = await getAuthToken();
     const terms = post._links['wp:term'];
     const taxonomies = await fetchPostTaxonomies({postId: post.id, terms});
 
@@ -42,6 +45,7 @@ export default async function PostSingle({post}) {
                             {/*<PostSingleTaxonomies taxonomies={taxonomies}/>*/}
 
                             <PostEntryActions post={post}/>
+                            {token && <PostEntryDelete post={post}/>}
                         </div>
                     </div>
                     <div className="clearfix"></div>

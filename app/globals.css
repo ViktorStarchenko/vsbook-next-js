@@ -1717,3 +1717,14 @@ Loading Indicator
     transform: rotate(360deg);
   }
 }
+
+/***********************************
+Delete Post
+************************************/
+.delete-post-modal {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 30px;
+}
+
