@@ -119,6 +119,7 @@ a {
   color: inherit;
   text-decoration: none;
   transition: all .2s;
+  word-break: break-word;
 }
 a:hover {
   color: var(--accent--light);
@@ -417,11 +418,13 @@ Posts Grid
   gap: 10px;
 }
 .posts-grid-item--front {
+  width: 100%;
+  height: 357px;
   position: relative;
 }
 .posts-grid-item--image {
   width: 100%;
-  height: 357px;
+  height: 100%;
   position: relative;
 }
 .posts-grid-item--image img {
@@ -579,7 +582,7 @@ Posts Grid
   /*.posts-grid-item {*/
   /*  width: 100%;*/
   /*}*/
-  .posts-grid-item--image {
+  .posts-grid-item--front {
     height: 250px;
   }
   .posts-grid-item {
@@ -1726,5 +1729,47 @@ Delete Post
   flex-direction: column;
   align-items: flex-start;
   gap: 30px;
+}
+
+/***********************************
+Post Modal
+************************************/
+.post-modal-overlay {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  z-index: 9999;
+}
+.post-modal-content {
+  width: 100%;
+  height: 90%;
+  background: white;
+  padding: 20px;
+  border-radius: 8px 8px 0 0;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 20px;
+  overflow: auto;
+}
+.modal-close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  border: none;
+  background: transparent;
+  font-size: 23px;
+}
+.post-modal-link {
+  width: 100%;
 }
 

@@ -4,6 +4,7 @@ import PostsGridItemLink from "./PostsGridItemLink";
 import ViewsCount from "../ViewsCount/ViewsCount";
 import FavoutiresButton from "../FavoutiresIcon/FavoutiresButton";
 import AddToCartButton from "../AddToCartButton/AddToCartButton";
+import PostLinkWrapper from "./PostLinkWrapper";
 
 export default async function PostsGridItemFront({post}) {
     const terms = post._links['wp:term'];
@@ -11,15 +12,17 @@ export default async function PostsGridItemFront({post}) {
 
     return (
         <div className="posts-grid-item--front">
-            <div className="posts-grid-item--image">
-                <PostsGridItemLink post={post} taxonomies={taxonomies}/>
-                <PostsGridItemImage post={post}/>
-            </div>
-            <div className="posts-grid-item-icons">
-                <AddToCartButton post={post}/>
-                <FavoutiresButton post={post}/>
-                <ViewsCount post={post} className="posts-grid-item-viewscount"/>
-            </div>
+            <PostLinkWrapper post={post} taxonomies={taxonomies}>
+                <div className="posts-grid-item--image">
+                    {/*<PostsGridItemLink post={post} taxonomies={taxonomies}/>*/}
+                    <PostsGridItemImage post={post}/>
+                </div>
+                <div className="posts-grid-item-icons">
+                    <AddToCartButton post={post}/>
+                    <FavoutiresButton post={post}/>
+                    <ViewsCount post={post} className="posts-grid-item-viewscount"/>
+                </div>
+            </PostLinkWrapper>
         </div>
     )
 }
