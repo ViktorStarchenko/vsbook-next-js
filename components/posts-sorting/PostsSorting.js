@@ -22,7 +22,7 @@ export default function PostsSorting() {
     );
 
     const activeSort = searchParams.get('order');
-    console.log(activeSort)
+
     return (
         <div className="posts-sorting">
             <div className="posts-sorting-list">
