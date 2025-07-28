@@ -1010,6 +1010,9 @@ Post Details Single Post
 .entry-content {
   margin-top: 25px;
 }
+.entry-media {
+  margin-top: 25px;
+}
 
 @media (max-width: 920px) {
   .post-container {
@@ -1040,6 +1043,9 @@ Sidebar and Layout
 .widget-title {
   font-size: 28px;
   color: var(--accent--light);
+  margin-bottom: 10px;
+}
+.widget-description {
   margin-bottom: 10px;
 }
 

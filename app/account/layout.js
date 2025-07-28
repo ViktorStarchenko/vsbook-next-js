@@ -26,6 +26,9 @@ export default function AccountLayout({ children }) {
                                     <li>
                                         <Link href="/account/create-post">Add Post</Link>
                                     </li>
+                                    <li>
+                                        <Link href="/account/upsert-pinecone">Upsert to pinecone</Link>
+                                    </li>
                                 </ul>
                             </div>
                         </div>

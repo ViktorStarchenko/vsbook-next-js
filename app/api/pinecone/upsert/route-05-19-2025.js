@@ -1,8 +1,9 @@
-// /app/api/pinecone/route.js
-
-import { pc, chunkText } from '@/lib/pinecone';
+import { OpenAI } from 'openai';
+import { pc } from '@/lib/pinecone';
 import { parse } from 'csv-parse/sync';
 import {getOpenAiEmbeddings} from "../../../../lib/openaiPrompt";
+
+const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
 export async function POST(req) {
 
@@ -26,31 +27,31 @@ export async function POST(req) {
             delimiter: ',',
         });
 
-        const allChunks = [];
+        const inputs = records.map(r => `${r.Title}. ${r.Content}`);
 
-        records.forEach((record, i) => {
-            const textChunks = chunkText(`${record.Title}. ${record.Content}`, 300); // 500 слів або токенів
-            textChunks.forEach((chunk, j) => {
-                allChunks.push({
-                    id: `${record.ID || `book_${i}`}_chunk_${j}`,
-                    text: chunk,
-                    metadata: { ...record, chunkIndex: j },
-                });
-            });
+        const embeddingResponse = await openai.embeddings.create({
+            model: "text-embedding-3-large",
+            input: inputs,
         });
 
-        const inputs = allChunks.map(chunk => chunk.text);
-        const embeddingResponse = await getOpenAiEmbeddings(model, inputs);
+        const openAiEmbeddings = await getOpenAiEmbeddings(model, queryText);
 
-        const vectors = embeddingResponse.data.map((item, i) => ({
-            id: allChunks[i].id,
-            values: item.embedding,
-            metadata: {
-                ...allChunks[i].metadata,
-                originalId: allChunks[i].id.split('_chunk_')[0],
-                chunk: allChunks[i].text,
-            }
-        }));
+        const vectors = embeddingResponse.data.map((item, i) => {
+            const r = records[i];
+            return {
+                id: r.ID || `book_${i}`,
+                values: item.embedding,
+                metadata: {
+                    title: r.Title,
+                    content: r.Content,
+                    genres: r.Genres?.split('|'),
+                    language: r.Languages?.split('|'),
+                    writer: r.Writers?.split('|'),
+                    release: r.Release?.split('|'),
+                    country: r.Country?.split('|'),
+                },
+            };
+        });
 
         const namespace = pc.index(index, host);
         await namespace.upsert(vectors);

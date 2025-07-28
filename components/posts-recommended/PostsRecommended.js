@@ -18,25 +18,29 @@ export default function PostsRecommended({ post }) {
     }, [post]);
 
     // API request to get embedding results
-    const { data: embeddingResult = [], isLoading: isEmbeddingLoading } = useQuery({
+    const { data: embeddingResult = {}, isLoading: isEmbeddingLoading } = useQuery({
         queryKey: ['embeddingResult', queryText],
         queryFn: async () => {
             if (!queryText) return [];
             const response = await fetch("/api/pinecone/search", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ namespace: "example-namespace", queryText })
+                // body: JSON.stringify({ namespace: "example-namespace", queryText })
+                body: JSON.stringify({ namespace: "", queryText })
             });
             const data = await response.json();
-            return data.matches || [];
+            return data || {};
         },
         enabled: !!queryText // The query is executed only if `queryText` is present.
     });
 
+    console.log("RECOMENDED")
+    console.log("embeddingResult", embeddingResult)
     // Generating an array of IDs to query posts
-    const embeddingIds = embeddingResult
-        .filter(item => item.id !== post.id.toString())
-        .map(item => item.id);
+    const matches = embeddingResult.matches || [];
+    const embeddingIds = matches
+        .filter(item => item.metadata.ID !== post.id.toString())
+        .map(item => item.metadata.ID);
 
     // Request posts by found IDs
     const { data: postsData, isLoading: isPostsLoading } = useQuery({
@@ -53,6 +57,11 @@ export default function PostsRecommended({ post }) {
         <div>
             <h3 className="widget-title">You may also like</h3>
             {isEmbeddingLoading || isPostsLoading ? <LoadingIndicator /> : null}
+            {embeddingResult.explanation && (
+                <div className="widget-description">
+                    <p>{embeddingResult.explanation}</p>
+                </div>
+            )}
             {postsData?.posts?.length > 0 && (
                 <KeenSlider layout="list-small" perView="1" perView1024="1" perView767="1" perView600="1">
                     {postsData?.posts.map(item => (
