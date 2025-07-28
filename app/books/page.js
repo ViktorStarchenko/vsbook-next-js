@@ -12,7 +12,7 @@ export default async function Books({searchParams}) {
     const filtersArray = Array.from(await searchParams).toString();
     const params = new URLSearchParams(searchParams.toString())
     const filters = await searchParams
-
+    console.log('filters', filters)
 
     const posts = await fetchPosts({
         page: page,
