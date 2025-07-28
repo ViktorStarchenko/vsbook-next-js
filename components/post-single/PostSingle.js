@@ -11,11 +11,10 @@ import PostsRecommended from "../posts-recommended/PostsRecommended";
 import RecentryViewed from "../RecentryViewed/RecentryViewed";
 import PostEntryDelete from "../PostEntryDelete/PostEntryDelete";
 import {getAuthToken} from "../../lib/auth";
+import PostInfoTaxonomiesClient from "../PostInfoTaxonomiesClient/PostInfoTaxonomiesClient";
 
 export default async function PostSingle({post}) {
     const token = await getAuthToken();
-    const terms = post._links['wp:term'];
-    const taxonomies = await fetchPostTaxonomies({postId: post.id, terms});
 
     return (
         <div className="post-container sidebar-enabled sidebar-right">
@@ -35,13 +34,10 @@ export default async function PostSingle({post}) {
                                 <span className="pg">
                                     <PostSingleViews post={post}/>
                                 </span>
-
-                                <span className="duration">
-			<i className="fa fa-clock-o"></i>
-			02 hours 00 minutes		</span>
                             </div>
 
                             <PostInfoTaxonomies post={post}/>
+                            {/*<PostInfoTaxonomiesClient post={post}/>*/}
                             {/*<PostSingleTaxonomies taxonomies={taxonomies}/>*/}
 
                             <PostEntryActions post={post}/>

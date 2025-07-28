@@ -1,17 +1,23 @@
-'use client'
+import {useQueryString} from "../../hooks/useQueryString";
 
 export default function PostInfoTaxonomiesItem({termName, term, wordWrap = false}) {
 
+    const { createQueryString } = useQueryString();
+
     let values = <span>
-                {term && term.map(item => (
-                    <a href="http://demo.amytheme.com/movie/demo/elementor-movie-news/amy_actor/alexander-cattly/" key={item.id}>{item.name}</a>
-                ))}
+                {term && term.map(item => {
+                    const taxonomyUrl = '/books?' + createQueryString(item.taxonomy, item.id)
+                    return (<a href={taxonomyUrl}
+                       key={item.id}>{item.name}</a>);
+                })}
             </span>
 
     if (wordWrap) {
-        values = term.map(item => (
-            <a href="http://demo.amytheme.com/movie/demo/elementor-movie-news/amy_actor/alexander-cattly/" key={item.id}>{item.name}</a>
-        ))
+        values = term.map(item => {
+            const taxonomyUrl = '/books?' + createQueryString(item.taxonomy, item.id)
+            return (<a href={taxonomyUrl}
+                       key={item.id}>{item.name}</a>);
+        })
     }
 
     return (
