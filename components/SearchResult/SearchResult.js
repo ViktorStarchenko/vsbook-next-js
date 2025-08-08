@@ -4,34 +4,29 @@ import {useState, useEffect} from 'react';
 import PostsListClient from "../posts-list-client/PostsListClient";
 import {useQuery} from "@tanstack/react-query";
 import LoadingIndicator from "../loadingIndicator/LoadingIndicator";
+import {useSelector} from "react-redux";
+import useGetPineconeEmbeddings from "../../hooks/useGetPineconeEmbeddings";
 
 
 export default function SearchResult({searchBar}) {
     const [queryText, setQueryText] = useState(searchBar || null);
-    // console.log("SEARCHRESULT queryString: ", queryText)
+    const currentIndex = useSelector(state => state.pineconeIndexes.currentIndex) || {};
 
     useEffect(() => {
         setQueryText(searchBar);
     }, [searchBar])
 
-    // API request to get embedding results
-    const { data: embeddingResult = [], isLoading: isEmbeddingLoading } = useQuery({
-        queryKey: ['embeddingResult', queryText],
-        queryFn: async () => {
-            if (!queryText) return [];
-            const response = await fetch("/api/pinecone/search", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ namespace: "example-namespace", queryText, topK: 10 })
-            });
-            const data = await response.json();
-            return data.matches || [];
-        },
-        enabled: !!queryText // The query is executed only if `queryText` is present.
+    const { data: embeddingResult = {}, isLoading: isEmbeddingLoading } = useGetPineconeEmbeddings({
+        indexName: currentIndex.name,
+        indexHost: currentIndex.host,
+        namespace: "example-namespace",
+        queryText
     });
 
+
     // Generating an array of IDs to query posts
-    const embeddingIds = embeddingResult.map(item => item.id);
+    const matches = embeddingResult.matches || [];
+    const embeddingIds = matches.map(item => item.id);
 
     // Request posts by found IDs
     const { data: postsData, isLoading: isPostsLoading } = useQuery({
@@ -46,7 +41,6 @@ export default function SearchResult({searchBar}) {
 
     return (
         <div>
-            <h2></h2>
             Your results is
             {isEmbeddingLoading || isPostsLoading && <LoadingIndicator />}
             {postsData?.posts?.length > 0 && (

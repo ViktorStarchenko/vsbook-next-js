@@ -4,29 +4,37 @@ import { stripHTML } from '@/lib/utils';
 import {getOpenAiEmbeddings, getOpenAIResponse} from "../../../../lib/openaiPrompt";
 
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
-const index = pc.index("text-embedding-3-small");
+
 
 export async function POST(req) {
     try {
-        const { namespace, queryText, topK = 5 } = await req.json();
+        const { indexName, indexHost, namespace="", queryText, topK = 5 } = await req.json();
 
+        if (!indexName) {
+            return Response.json({ error: "Pinecon index not selected" }, { status: 400 });
+        }
         if (!queryText) {
             return Response.json({ error: "Missing required fields" }, { status: 400 });
         }
+        const index = pc.index(indexName);
 
         // Step 1: Embed query
-        // const embedding = await pc.inference.embed(modelName, [queryText], {
-        //     inputType: "query",
-        // });
-        const embedding = await getOpenAiEmbeddings("text-embedding-3-small", queryText);
+        const embedding = await pc.inference.embed(indexName, [queryText], {
+            inputType: "query",
+        });
+        const embeddingValues = embedding.data[0].values;
+
+        // const embedding = await getOpenAiEmbeddings("text-embedding-3-small", queryText);
 
         // Step 2: Search in Pinecone
         const queryResponse = await index.namespace(namespace).query({
             topK,
-            vector: embedding.data[0].embedding,
-            includeValues: false,
+            vector: embeddingValues,
+            includeValues: true,
             includeMetadata: true,
         });
+        return Response.json(queryResponse);
+
 
         const matches = queryResponse.matches || [];
         const uniqueMatches = [];

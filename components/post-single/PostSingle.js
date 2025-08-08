@@ -250,7 +250,7 @@ export default async function PostSingle({post}) {
                 </article>
             </div>
             <div className="sidebar sidebar-left">
-                {/*<PostsRecommended post={post}/>*/}
+                <PostsRecommended post={post}/>
                 <PostsMostViewed />
             </div>
         </div>

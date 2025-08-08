@@ -8,6 +8,7 @@ import viewsSlice from "./views-slice";
 import uiSlice from "./ui-slice";
 import mainMenuSlice from "./main-menu-slice";
 import authSlice from "./auth-slice";
+import pineconeIndexesSlice from "./pinecone-indexes";
 
 const store = configureStore({
     reducer: {
@@ -17,7 +18,8 @@ const store = configureStore({
         views: viewsSlice.reducer,
         ui: uiSlice.reducer,
         mainMenu: mainMenuSlice.reducer,
-        auth: authSlice.reducer
+        auth: authSlice.reducer,
+        pineconeIndexes: pineconeIndexesSlice.reducer
     }
 });
 

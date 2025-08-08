@@ -8,6 +8,7 @@ import ClientProviderFavoutires from "./ClientProviderFavoutires";
 import ClientProviderCart from "./ClientProviderCart";
 import {QueryClientProvider} from "@tanstack/react-query";
 import {queryClient} from "@/lib/utils";
+import ClientProviderPinecone from "./ClientProviderPinecone";
 
 export default function ClientProviders({ children }) {
     return (
@@ -17,6 +18,7 @@ export default function ClientProviders({ children }) {
                 <ClientProviderViews />
                 <ClientProviderFavoutires />
                 <ClientProviderCart />
+                <ClientProviderPinecone />
                 {children}
             </Provider>
         </QueryClientProvider>
