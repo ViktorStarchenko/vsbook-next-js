@@ -1830,12 +1830,32 @@ HELPER CHAT
   margin-bottom: auto;
   padding: 20px 0;
 }
+.helper-chat-result--heading {
+  margin-bottom: 10px;
+}
+.helper-chat-result--user-query {
+  font-style: italic;
+  color: var(--color-title--light);
+}
 .helper-chat-result {
   background-color: #fff;
   border: 1px solid var(--tg-stroke);
   border-radius: 10px;
   padding: 10px;
   overflow: auto;
+  display: flex;
+  flex-direction: column;
+}
+.helper-chat-result--item {
+  padding: 10px 0;
+}
+.helper-chat-result--item:not(:last-child) {
+  border-bottom: 1px solid var(--color-text--light);
+}
+.helper-chat-result--item-title {
+  color: var(--color-title--light);
+  margin-bottom: 8px;
+  display: inline-block;
 }
 .helper-chat-close {
   width: 20px;

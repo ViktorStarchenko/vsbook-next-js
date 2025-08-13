@@ -10,9 +10,9 @@ export default function Footer() {
 
     return (
         <>
-            <Section>
-                <BooksChatWidget />
-            </Section>
+            {/*<Section>*/}
+            {/*    <BooksChatWidget />*/}
+            {/*</Section>*/}
             <footer className="footer">
                 <div className="wrapper wrapper-1170">
 

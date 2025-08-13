@@ -8,12 +8,17 @@ import {useSelector} from "react-redux";
 import useGetPineconeEmbeddings from "../../hooks/useGetPineconeEmbeddings";
 import FormGroup from "../FormGroup/FormGroup";
 import LoadingIndicator from "../loadingIndicator/LoadingIndicator";
+import {useGetPostsByIds} from "../../hooks/useGetPostsByIds";
+import KeenSlider from "../KeenSlider/KeenSlider";
+import KeenSliderSlide from "../KeenSlider/KeenSliderSlide";
+import PostsListItemClient from "../posts-list-client/PostsListItemClient";
+import BooksChatWidgetSmallItem from "./BooksChatWidgetSmallItem";
 
 export default function BooksChatWidgetSmall() {
     const [queryText, setQueryText] = useState('');
     const [response, setResponse] = useState(null);
     const [updatedQueryText, setUpdatedQueryText] = useState(null);
-    const [assistentResponse, setAssistentResponse] = useState('');
+    const [assistentResponse, setAssistentResponse] = useState([]);
     const [loading, setLoading] = useState(false);
     const [chatOpen, setChatOpen] = useState(false);
 
@@ -49,6 +54,7 @@ export default function BooksChatWidgetSmall() {
 
     useEffect( () =>  {
         if (embeddingResult?.matches) {
+            console.log('embeddingResult.matches', embeddingResult.matches)
             async function fetchData() {
                 const response = await fetch('/api/agent/groq/generate-response', {
                     method: 'POST',
@@ -58,14 +64,22 @@ export default function BooksChatWidgetSmall() {
                     body: JSON.stringify({ embeddingResult: embeddingResult.matches, userMessage: queryText }),
                 });
                 const data = await response.json();
-                setAssistentResponse(data?.answer || '')
-                console.log('FULL ANSWER', data);
+                setAssistentResponse(data?.books || '')
+                // console.log('FULL ANSWER', data);
             }
             fetchData();
         }
-    }, [embeddingResult])
+    }, [embeddingResult]);
 
-    console.log('embeddingResult', embeddingResult);
+
+
+    const matches = embeddingResult.matches || [];
+    const embeddingIds = matches.map(item => item.id);
+    const { data: postsData, isLoading: isPostsLoading } = useGetPostsByIds({page: 1, perPage: 10, sortOrder: "desc", filtersArray: null, idsArray: embeddingIds, enabled: embeddingIds.length > 0})
+
+
+    // console.log('assistentResponse', assistentResponse);
+    // console.log('embeddingIds', postsData);
 
     return (
         <div className="helper-chat-wrapper">
@@ -107,11 +121,32 @@ export default function BooksChatWidgetSmall() {
                             </div>
                         )}
                     </div>
-                    {assistentResponse && (
-                        <div className="helper-chat-result">
-                            {assistentResponse}
-                        </div>
-                    )}
+                    {/*{assistentResponse?.length > 0 && (*/}
+                    {/*    <div className="helper-chat-result">*/}
+                    {/*        {assistentResponse.map(item => (*/}
+                    {/*            <div key={item.id} className="helper-chat-result--item">*/}
+                    {/*                <div className="helper-chat-result--item-title">{item.id}</div>*/}
+                    {/*                <div>*/}
+                    {/*                    <p>{item.reason}</p>*/}
+                    {/*                </div>*/}
+                    {/*            </div>*/}
+                    {/*        ))}*/}
+                    {/*    </div>*/}
+                    {/*)}*/}
+                    <div className="helper-chat-result">
+                        {postsData?.posts?.length > 0 && assistentResponse?.length > 0  && (
+                            <>
+                            <div className="helper-chat-result--heading h4">Here's something that might be suitable for your request  "<span className="helper-chat-result--user-query">{queryText}</span>":</div>
+                            {assistentResponse.map(item => (
+                                <BooksChatWidgetSmallItem
+                                    key={item.id}
+                                    posts={postsData?.posts}
+                                    assistantResponse={item}
+                                />
+                            ))}
+                            </>
+                        )}
+                    </div>
                     <form onSubmit={handleSubmit}>
                         <FormGroup className="d-flex">
                             <input
