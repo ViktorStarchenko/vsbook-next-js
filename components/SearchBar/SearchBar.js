@@ -4,6 +4,8 @@ import { useState, useEffect } from "react";
 import {sortByViewsCountDescending} from "../../lib/utils";
 import PostsListClient from "../posts-list-client/PostsListClient";
 import { useRouter } from 'next/navigation'
+import {useSelector} from "react-redux";
+import useGetPineconeEmbeddings from "../../hooks/useGetPineconeEmbeddings";
 
 export default function SearchBar() {
     const [showSearchInput, setShowSearchInput] = useState(false);
@@ -12,31 +14,38 @@ export default function SearchBar() {
     const [results, setResults] = useState([]);
     const router = useRouter();
 
-    const handleSearch = async () => {
+    const currentIndex = useSelector(state => state.pineconeIndexes.currentIndex) || {};
 
-        // const queryParams = new URLSearchParams(query).toString()
+
+
+    const handleSearch = async () => {
         const queryParams = encodeURIComponent(query)
-        console.log("queryParams", queryParams)
         return router.push(`/search?search_bar=${queryParams}`);
         return null
         const response = await fetch("/api/pinecone/search", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ namespace: "example-namespace", queryText: query, topK: 10 })
+            body: JSON.stringify({
+                indexName: currentIndex.name,
+                indexHost: currentIndex.host,
+                namespace: "example-namespace",
+                queryText: queryParams,
+                topK: 10
+            })
         });
 
         const data = await response.json();
         setResults(data.matches || []);
     };
 
+
+
     useEffect(() => {
         if (results.length > 0) {
-
             const newIds = sortByViewsCountDescending(results, 10).map(item => item.id);
             if (!newIds) {
                 return null;
             }
-
             async function loadPosts() {
                 try {
                     const response = await fetch(`/api/posts?page=1&perPage=10&sortOrder=desc&idsArray=${JSON.stringify(newIds)}`);
@@ -46,15 +55,12 @@ export default function SearchBar() {
                     console.error("Failed to fetch posts:", error);
                 }
             }
-
             if (newIds.length > 0) {
                 loadPosts();
             }
-
         }
-
     }, [results]);
-
+    // console.log('SEARCH POSTS', posts)
     let content;
     if (posts && posts.posts.length > 0) {
         content = <PostsListClient posts={posts.posts} layout="col-2"/>

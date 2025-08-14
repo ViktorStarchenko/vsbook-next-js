@@ -53,9 +53,6 @@ export default async function PostSingle({post}) {
 
                     <div className="entry-media">
                         <h3 className="info-name amy-title">Video &amp; Photo</h3>
-                        <div className="number-media">
-                            <span className="gallery"><i></i>7 photos</span>
-                        </div>
                         <div>
                             <RecentryViewed />
                         </div>

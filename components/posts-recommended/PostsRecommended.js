@@ -7,34 +7,51 @@ import KeenSliderSlide from "../KeenSlider/KeenSliderSlide";
 import { useQuery } from "@tanstack/react-query";
 import PostsListItemClient from "../posts-list-client/PostsListItemClient";
 import LoadingIndicator from "../loadingIndicator/LoadingIndicator";
+import {useSelector} from "react-redux";
+import useGetPineconeEmbeddings from "../../hooks/useGetPineconeEmbeddings";
 
 export default function PostsRecommended({ post }) {
     const [queryText, setQueryText] = useState('');
+    const currentIndex = useSelector(state => state.pineconeIndexes.currentIndex) || {}
 
     useEffect(() => {
         if (post) {
             setQueryText(`${post.title.rendered} ${parseHTML(post.content.rendered)}`);
         }
     }, [post]);
+    console.log("currentIndex Recomended", currentIndex)
 
     // API request to get embedding results
-    const { data: embeddingResult = [], isLoading: isEmbeddingLoading } = useQuery({
-        queryKey: ['embeddingResult', queryText],
-        queryFn: async () => {
-            if (!queryText) return [];
-            const response = await fetch("/api/pinecone/search", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ namespace: "example-namespace", queryText })
-            });
-            const data = await response.json();
-            return data.matches || [];
-        },
-        enabled: !!queryText // The query is executed only if `queryText` is present.
+    const { data: embeddingResult = {}, isLoading: isEmbeddingLoading } = useGetPineconeEmbeddings({
+        indexName: currentIndex.name,
+        indexHost: currentIndex.host,
+        namespace: "example-namespace",
+        queryText
     });
 
+    // const { data: embeddingResult = {}, isLoading: isEmbeddingLoading } = useQuery({
+    //     queryKey: ['embeddingResult', queryText],
+    //     queryFn: async () => {
+    //         if (!queryText) return [];
+    //         const response = await fetch("/api/pinecone/search", {
+    //             method: "POST",
+    //             headers: { "Content-Type": "application/json" },
+    //             // body: JSON.stringify({ namespace: "example-namespace", queryText })
+    //             body: JSON.stringify({ namespace: "", queryText })
+    //         });
+    //         const data = await response.json();
+    //         return data || {};
+    //     },
+    //     enabled: !!queryText // The query is executed only if `queryText` is present.
+    // });
+
+
+
+    console.log("RECOMENDED")
+    console.log("embeddingResult", embeddingResult);
     // Generating an array of IDs to query posts
-    const embeddingIds = embeddingResult
+    const matches = embeddingResult.matches || [];
+    const embeddingIds = matches
         .filter(item => item.id !== post.id.toString())
         .map(item => item.id);
 
@@ -49,10 +66,21 @@ export default function PostsRecommended({ post }) {
         enabled: embeddingIds.length > 0 // The request is executed only if there is an ID
     });
 
+    console.log("TESTETSE", postsData)
+
+    if (!currentIndex?.name || !queryText) {
+        return null;
+    }
+
     return (
         <div>
             <h3 className="widget-title">You may also like</h3>
             {isEmbeddingLoading || isPostsLoading ? <LoadingIndicator /> : null}
+            {embeddingResult.explanation && (
+                <div className="widget-description">
+                    <p>{embeddingResult.explanation}</p>
+                </div>
+            )}
             {postsData?.posts?.length > 0 && (
                 <KeenSlider layout="list-small" perView="1" perView1024="1" perView767="1" perView600="1">
                     {postsData?.posts.map(item => (
