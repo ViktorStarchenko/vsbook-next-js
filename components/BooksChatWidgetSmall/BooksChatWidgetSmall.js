@@ -3,16 +3,15 @@
 
 import { useState, useEffect } from 'react';
 import Link from "next/link";
-import {useQuery} from "@tanstack/react-query";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import useGetPineconeEmbeddings from "../../hooks/useGetPineconeEmbeddings";
 import FormGroup from "../FormGroup/FormGroup";
 import LoadingIndicator from "../loadingIndicator/LoadingIndicator";
 import {useGetPostsByIds} from "../../hooks/useGetPostsByIds";
-import KeenSlider from "../KeenSlider/KeenSlider";
-import KeenSliderSlide from "../KeenSlider/KeenSliderSlide";
-import PostsListItemClient from "../posts-list-client/PostsListItemClient";
 import BooksChatWidgetSmallItem from "./BooksChatWidgetSmallItem";
+import {generateId, getFormattedDateTime} from "../../lib/client-helpers";
+import {helperChatActions} from "../../store/helper-chat-slice";
+import BooksChatWidgetSmallList from "./BooksChatWidgetSmallList";
 
 export default function BooksChatWidgetSmall() {
     const [queryText, setQueryText] = useState('');
@@ -21,8 +20,12 @@ export default function BooksChatWidgetSmall() {
     const [assistentResponse, setAssistentResponse] = useState([]);
     const [loading, setLoading] = useState(false);
     const [chatOpen, setChatOpen] = useState(false);
+    const [newResponseItem, setNewResponseItem] = useState(null);
+    const [hasQueried, setHasQueried] = useState(false);
 
     const currentIndex = useSelector(state => state.pineconeIndexes.currentIndex);
+    const helperChatItems = useSelector(state => state.helperChat.items);
+    const dispatch = useDispatch();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -56,6 +59,7 @@ export default function BooksChatWidgetSmall() {
         if (embeddingResult?.matches) {
             console.log('embeddingResult.matches', embeddingResult.matches)
             async function fetchData() {
+                setLoading(true);
                 const response = await fetch('/api/agent/groq/generate-response', {
                     method: 'POST',
                     headers: {
@@ -65,7 +69,9 @@ export default function BooksChatWidgetSmall() {
                 });
                 const data = await response.json();
                 setAssistentResponse(data?.books || '')
-                // console.log('FULL ANSWER', data);
+                setHasQueried(true);
+                console.log('FULL ANSWER', assistentResponse);
+                setLoading(false);
             }
             fetchData();
         }
@@ -77,9 +83,50 @@ export default function BooksChatWidgetSmall() {
     const embeddingIds = matches.map(item => item.id);
     const { data: postsData, isLoading: isPostsLoading } = useGetPostsByIds({page: 1, perPage: 10, sortOrder: "desc", filtersArray: null, idsArray: embeddingIds, enabled: embeddingIds.length > 0})
 
+    console.log("hasQueried", hasQueried)
+    useEffect(() => {
+        if (hasQueried) {
+            const id = generateId();
+            const currentDateTime = getFormattedDateTime();
+            const newHelperChatItem = {
+                id: id,
+                dateTime: currentDateTime,
+                userRequest: queryText,
+                items: [],
+                emptyResponse: ''
+            }
+            if (postsData?.posts?.length > 0 && assistentResponse?.length > 0) {
+                const combinedData = assistentResponse
+                    .map(item => {
+                        const matchingPost = postsData.posts.find(post => post.id === item.id);
+                        if (!matchingPost) return null;
+                        return {
+                            id: `${id}-${item.id}`,
+                            assistantResponse: item,
+                            post: matchingPost
+                        };
+                    })
+                    .filter(Boolean); // remove null/undefined
+                if (!combinedData) {
+                    return null;
+                }
+                newHelperChatItem.items = combinedData;
+            } else {
+                newHelperChatItem.emptyResponse = 'The assistant did not find any matches for your request. Please try again later or try a different request.'
+            }
+            if (!newHelperChatItem) {
+                return null;
+            }
+            setNewResponseItem(newHelperChatItem);
+        }
+    }, [assistentResponse, hasQueried]);
 
-    // console.log('assistentResponse', assistentResponse);
-    // console.log('embeddingIds', postsData);
+
+    useEffect(() => {
+        if (!newResponseItem) return;
+        dispatch(helperChatActions.addItem(newResponseItem));
+    }, [newResponseItem]);
+    console.log('helperChatItems', helperChatItems);
 
     return (
         <div className="helper-chat-wrapper">
@@ -121,31 +168,11 @@ export default function BooksChatWidgetSmall() {
                             </div>
                         )}
                     </div>
-                    {/*{assistentResponse?.length > 0 && (*/}
-                    {/*    <div className="helper-chat-result">*/}
-                    {/*        {assistentResponse.map(item => (*/}
-                    {/*            <div key={item.id} className="helper-chat-result--item">*/}
-                    {/*                <div className="helper-chat-result--item-title">{item.id}</div>*/}
-                    {/*                <div>*/}
-                    {/*                    <p>{item.reason}</p>*/}
-                    {/*                </div>*/}
-                    {/*            </div>*/}
-                    {/*        ))}*/}
-                    {/*    </div>*/}
-                    {/*)}*/}
                     <div className="helper-chat-result">
-                        {postsData?.posts?.length > 0 && assistentResponse?.length > 0  && (
-                            <>
-                            <div className="helper-chat-result--heading h4">Here's something that might be suitable for your request  "<span className="helper-chat-result--user-query">{queryText}</span>":</div>
-                            {assistentResponse.map(item => (
-                                <BooksChatWidgetSmallItem
-                                    key={item.id}
-                                    posts={postsData?.posts}
-                                    assistantResponse={item}
-                                />
-                            ))}
-                            </>
-                        )}
+                        {helperChatItems?.length > 0 && helperChatItems.map(item => (
+                            <BooksChatWidgetSmallList key={item.id} item={item} />
+                        ))}
+                        {loading && <LoadingIndicator />}
                     </div>
                     <form onSubmit={handleSubmit}>
                         <FormGroup className="d-flex">

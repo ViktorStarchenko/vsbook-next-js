@@ -10,6 +10,6 @@ export function useGetPostsByIds({page = 1, perPage = 10, sortOrder = "desc", fi
         },
         enabled: enabled // The request is executed only if there is an ID
     });
-    console.log('HOOK enabled ', enabled)
+
     return { data, isLoading };
 }

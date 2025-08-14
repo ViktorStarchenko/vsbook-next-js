@@ -60,7 +60,7 @@ export default function SearchBar() {
             }
         }
     }, [results]);
-    console.log('SEARCH POSTS', posts)
+    // console.log('SEARCH POSTS', posts)
     let content;
     if (posts && posts.posts.length > 0) {
         content = <PostsListClient posts={posts.posts} layout="col-2"/>
