@@ -2,10 +2,10 @@ import Section from "../components/section/Section";
 
 import {fetchPosts} from "../lib/posts-loader";
 import PostsList from "../components/posts-list/PostsList";
-import SearchBar from "../components/SearchBar/SearchBar";
 import KeenSlider from "../components/KeenSlider/KeenSlider";
 import KeenSliderSlide from "../components/KeenSlider/KeenSliderSlide";
 import PostsGridItem from "../components/posts-grid/PostsGridItem";
+
 
 export default async function Home({searchParams}) {
 
@@ -29,20 +29,21 @@ export default async function Home({searchParams}) {
           <h1>Home Page</h1>
             {/*<PostsGrid posts={posts.posts}/>*/}
         </Section>
-          {/*<Section>*/}
-          {/*    <SearchBar />*/}
-          {/*</Section>*/}
           <Section>
-              <PostsList posts={posts.posts} layout="col-2"/>
+              {posts?.posts?.length > 0 && (
+                  <PostsList posts={posts.posts} layout="col-2"/>
+              )}
           </Section>
           <Section>
-              <KeenSlider layout="grid">
-                  {posts.posts.map(item => (
-                    <KeenSliderSlide key={`slide-${item.id}`}>
-                        <PostsGridItem post={item}/>
-                    </KeenSliderSlide>
-                  ))}
-              </KeenSlider>
+              {posts?.posts?.length > 0 && (
+                  <KeenSlider layout="grid">
+                      {posts.posts.map(item => (
+                          <KeenSliderSlide key={`slide-${item.id}`}>
+                              <PostsGridItem post={item}/>
+                          </KeenSliderSlide>
+                      ))}
+                  </KeenSlider>
+              )}
           </Section>
       </>
   );
